@@ -11,7 +11,7 @@ import Foundation
 // TODO: Maybe Convert to URL params through an enum or url extension
 struct MovieServiceConstants {
     static let baseURL = "https://api.themoviedb.org/3/movie/"
-    static let apiKey = "?api_key=55957fcf3ba81b137f8fc01ac5a31fb5"
+    static let apiKey = "?api_key=705f7bed4894d3adc718c699a8ca9a4f"
     static let nowPlaying = "now_playing"
     static let popular = "popular"
     static let pageQuery = "&page="
