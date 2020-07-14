@@ -13,6 +13,7 @@ class NowPlayingMoviesViewModel {
     var service: MovieService
     var imageCache: ImageCache
     var update: (() -> ())?
+    var errorUpdate: ((NetworkError) -> ())?
     var movies: [Movie] = [] {
         didSet {
             self.update?()
@@ -24,17 +25,20 @@ class NowPlayingMoviesViewModel {
         self.imageCache = cache
     }
     
-    func bind(handler: @escaping ()->()) {
-        self.update = handler
+    func bind(uiHandler: @escaping ()->(), errorHandler: @escaping (NetworkError)->()) {
+        self.update = uiHandler
+        self.errorUpdate = errorHandler
     }
     
     func fetchMovies() {
-        self.service.fetchNowPlaying { (result) in
+        self.service.fetchNowPlaying { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let page):
                 self.movies = page.results
             case .failure(let error):
                 print(error.localizedDescription)
+                self.errorUpdate?(error)
             }
         }
     }
@@ -45,13 +49,15 @@ class NowPlayingMoviesViewModel {
             return
         }
         
-        self.service.fetchMovie(id: self.movies[index].id) { (result) in
+        self.service.fetchMovie(id: self.movies[index].id) { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let movie):
                 self.movies[index] = movie
                 completion()
             case .failure(let error):
                 print(error.localizedDescription)
+                self.errorUpdate?(error)
             }
         }
     }
@@ -68,11 +74,12 @@ class NowPlayingMoviesViewModel {
             return
         }
         completion(nil)
-        self.service.fetchImage(urlString: urlString, completion: { (result) in
+        self.service.fetchImage(urlString: urlString, completion: { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 guard let data = data else {
-                    completion(nil)
+                    self.errorUpdate?(NetworkError.badData)
                     return
                 }
                 print("Network")
@@ -80,6 +87,7 @@ class NowPlayingMoviesViewModel {
                 completion(UIImage(data: data))
             case .failure(let error):
                 print(error.localizedDescription)
+                self.errorUpdate?(error)
             }
         })
     }

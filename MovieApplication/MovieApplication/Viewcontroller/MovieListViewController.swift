@@ -27,11 +27,17 @@ class MovieListViewController: UIViewController {
         self.setUpTableView()
         
         self.popularViewModel = PopularMoviesViewModel()
-        self.popularViewModel.bind {
+
+        self.popularViewModel.bind(uiHhandler: {
             DispatchQueue.main.async {
                 self.tableView?.reloadData()
             }
+        }) { (error) in
+            DispatchQueue.main.async {
+                self.presentAlertController(for: error)
+            }
         }
+            
         self.popularViewModel.fetchMovies()
         self.navigationItem.title = "MOVIES"
         self.navigationController?.navigationBar.backgroundColor = .black

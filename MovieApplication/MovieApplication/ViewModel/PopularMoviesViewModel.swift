@@ -22,26 +22,30 @@ class PopularMoviesViewModel {
     private var service: MovieService
     private var imageCache: ImageCache
     private var update: (() -> ())?
+    private var errorUpdate: ((NetworkError) -> ())?
     
     init(service: MovieService = MovieService(), cache: ImageCache = ImageCache.sharedCache) {
         self.service = service
         self.imageCache = cache
     }
     
-    func bind(handler: @escaping ()->()) {
-        self.update = handler
+    func bind(uiHhandler: @escaping ()->(), errorHandler: @escaping (NetworkError)->()) {
+        self.update = uiHhandler
+        self.errorUpdate = errorHandler
     }
     
     func fetchMovies() {
         let pageNum = (self.currentPage?.page ?? 0) + 1
         guard pageNum <= self.currentPage?.totalPages ?? 1 else { return }
         self.service.fetchPopular(with: pageNum, completion: { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let page):
-                self?.movies.append(contentsOf: page.results)
-                self?.currentPage = page
+                self.movies.append(contentsOf: page.results)
+                self.currentPage = page
             case .failure(let error):
                 print(error.localizedDescription)
+                self.errorUpdate?(error)
             }
         })
     }
@@ -52,13 +56,15 @@ class PopularMoviesViewModel {
             return
         }
         
-        self.service.fetchMovie(id: self.movies[index].id) { (result) in
+        self.service.fetchMovie(id: self.movies[index].id) { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let movie):
                 self.movies[index] = movie
                 completion(self.duration(index: index))
             case .failure(let error):
                 print(error.localizedDescription)
+                self.errorUpdate?(error)
             }
         }
     }
@@ -70,7 +76,8 @@ class PopularMoviesViewModel {
             return
         }
         completion(nil)
-        self.service.fetchImage(urlString: urlString, completion: { (result) in
+        self.service.fetchImage(urlString: urlString, completion: { [weak self] (result) in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 guard let data = data else {
@@ -81,6 +88,7 @@ class PopularMoviesViewModel {
                 completion(UIImage(data: data))
             case .failure(let error):
                 print(error.localizedDescription)
+                self.errorUpdate?(error)
             }
         })
     }

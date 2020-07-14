@@ -10,6 +10,7 @@ import UIKit
 
 protocol CellSelectedDelegate {
     func navigateToDetail(with index: Int, viewModel: ViewModelType)
+    func presentAlert(error: NetworkError)
 }
 
 class NowPlayingCell: UITableViewCell {
@@ -33,9 +34,13 @@ class NowPlayingCell: UITableViewCell {
     }
     
     private func setUp() {
-        self.nowPlayingViewModel.bind {
+        self.nowPlayingViewModel.bind(uiHandler: {
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                self.delegate?.presentAlert(error: error)
             }
         }
         self.nowPlayingViewModel.fetchMovies()

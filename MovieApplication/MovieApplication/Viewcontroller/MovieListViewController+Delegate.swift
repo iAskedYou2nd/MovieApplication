@@ -47,6 +47,12 @@ extension MovieListViewController: CellSelectedDelegate {
         }
     }
     
+    func presentAlert(error: NetworkError) {
+        DispatchQueue.main.async {
+            self.presentAlertController(for: error)
+        }
+    }
+    
 }
 
 extension MovieListViewController: DismissDetailDelegate {
