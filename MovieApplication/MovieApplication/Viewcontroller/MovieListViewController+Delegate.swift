@@ -42,7 +42,7 @@ extension MovieListViewController: CellSelectedDelegate {
             let navVC = UINavigationController()
             navVC.viewControllers = [detailVC]
             navVC.navigationBar.barTintColor = .clear
-            self.modalPresentationStyle = .overFullScreen
+            navVC.modalPresentationStyle = .overFullScreen
             self.present(navVC, animated: true, completion: nil)
         }
     }

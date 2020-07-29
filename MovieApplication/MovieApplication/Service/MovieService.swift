@@ -53,7 +53,7 @@ extension MovieService: ServiceType {
     
     func fetchPopular(with page: Int, completion: @escaping PageResultHandler) {
         
-        guard let url = URL(string: MovieServiceConstants.baseURL + MovieServiceConstants.popular + MovieServiceConstants.apiKey + MovieServiceConstants.pageQuery + "\(page)") else {
+        guard let url = URL(string: MovieServiceConstants.baseURL + MovieServiceConstants.popular + MovieServiceConstants.apiKey + MovieServiceConstants.pageQuery + "\(1)") else {
             completion(.failure(.badURL))
             return
         }
