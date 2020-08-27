@@ -14,7 +14,7 @@ class ImageCache {
     
     private let cache: NSCache<NSString, NSData>
     
-    private init(cache: NSCache<NSString, NSData> = NSCache<NSString, NSData>()) {
+    init(cache: NSCache<NSString, NSData> = NSCache<NSString, NSData>()) {
         self.cache = cache
     }
         
