@@ -14,7 +14,6 @@ class RatingView: UIView {
     var outlineLayer: CAShapeLayer? {
         didSet {
             guard let old = oldValue, let new = self.outlineLayer else { return }
-            print("Replaced")
             self.circleLayer?.replaceSublayer(old, with: new)
         }
     }

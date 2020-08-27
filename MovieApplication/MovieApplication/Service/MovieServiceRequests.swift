@@ -9,23 +9,20 @@
 import Foundation
 
 enum MovieServiceRequest {
-    case popularMovies
     case nowPlayingMovies
-    case individualMovie
-    case movieImage
+    case popularMovies(Int)
+    case individualMovie(Int)
+    case movieImage(String)
     
-    func getURL(for query: Any?) -> URL? {
+    var url: URL? {
         switch self {
-        case .popularMovies:
-            guard let page = query as? Int else { return nil }
+        case .popularMovies(let page):
             return MovieServiceParams.createPopularMoviesURL(for: page)
         case .nowPlayingMovies:
             return MovieServiceParams.createNowPlayingURL()
-        case .individualMovie:
-            guard let identifier = query as? Int else { return nil }
+        case .individualMovie(let identifier):
             return MovieServiceParams.createMovieURL(for: identifier)
-        case .movieImage:
-            guard let posterPath = query as? String else { return nil }
+        case .movieImage(let posterPath):
             return MovieServiceParams.createMovieImageURL(for: posterPath)
         }
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CellSelectedDelegate {
-    func navigateToDetail(with index: Int, viewModel: ViewModelDataSource?)
+    func navigateToDetail(with index: Int, viewModel: ViewModelType?)
     func presentAlert(error: NetworkError)
 }
 

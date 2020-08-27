@@ -12,19 +12,19 @@ class MovieViewModel: ViewModelType {
     
     private var state: ViewModelState
     private var currentPage: PageResult?
-    private var movies: [Movie] = [] {
+    internal var movies: [Movie] = [] {
         didSet {
             guard oldValue.count != self.movies.count else { return }
             self.update?()
         }
     }
         
-    private var service: MovieService
-    private var imageCache: ImageCache
+    internal var service: ServiceType
+    internal var imageCache: ImageCache
     private var update: (() -> ())?
     private var errorUpdate: ((NetworkError) -> ())?
     
-    init(state: ViewModelState, service: MovieService = MovieService(), cache: ImageCache = ImageCache.sharedCache) {
+    init(state: ViewModelState, service: ServiceType = MovieService(), cache: ImageCache = ImageCache.sharedCache) {
         self.state = state
         self.service = service
         self.imageCache = cache
@@ -41,10 +41,9 @@ class MovieViewModel: ViewModelType {
         if self.state == .popular {
             let pageNum = (self.currentPage?.page ?? 0) + 1
             guard pageNum <= self.currentPage?.totalPages ?? 1 else { return }
-            url = MovieServiceRequest.popularMovies.getURL(for: pageNum)
+            url = MovieServiceRequest.popularMovies(pageNum).url
         } else {
-            url = MovieServiceRequest.nowPlayingMovies.getURL(for: nil)
-        }
+            url = MovieServiceRequest.nowPlayingMovies.url        }
         
         self.service.fetch(url: url) { [weak self] (result: Result<PageResult, NetworkError>) in
             guard let self = self else { return }
@@ -64,7 +63,7 @@ class MovieViewModel: ViewModelType {
             completion()
             return
         }
-        let url = MovieServiceRequest.individualMovie.getURL(for: self.movies[index].id)
+        let url = MovieServiceRequest.individualMovie(self.movies[index].id).url
         
         self.service.fetch(url: url) { [weak self] (result: Result<Movie, NetworkError>) in
             guard let self = self else { return }
@@ -86,7 +85,7 @@ class MovieViewModel: ViewModelType {
             return
         }
         
-        let url = MovieServiceRequest.movieImage.getURL(for: self.movies[index].posterImage)
+        let url = MovieServiceRequest.movieImage(self.movies[index].posterImage).url
         self.service.fetch(url: url) { [weak self] (result) in
              guard let self = self else { return }
                        switch result {
@@ -103,50 +102,4 @@ class MovieViewModel: ViewModelType {
                        }
         }
     }
-}
-
-extension MovieViewModel: ViewModelDataSource {
-        
-    var count: Int {
-        return self.movies.count
-    }
-    
-    func title(index: Int) -> String {
-        return self.movies[index].title
-    }
-    
-    func releaseDate(index: Int) -> String {
-        return self.movies[index].releaseDate.dateFormatting()
-    }
-    
-    func duration(index: Int) -> String {
-        return String(self.movies[index].duration ?? 0).timeLengthFormatting()
-    }
-    
-    func overView(index: Int) -> String {
-        return self.movies[index].overview
-    }
-    
-    func genres(index: Int) -> [String] {
-        return self.movies[index].genres?.compactMap{ $0.name } ?? []
-    }
-    
-    func image(index: Int) -> UIImage? {
-        guard let data = self.imageCache.get(url: self.fullImageURLString(for: index)) else {
-            return UIImage(named: "Default.jpeg")
-        }
-        return UIImage(data: data)
-    }
-    
-    func rating(index: Int) -> Double {
-        return self.movies[index].rating * 10
-    }
-    
-    func fullImageURLString(for index: Int) -> String {
-        return MovieServiceRequest
-        .movieImage
-        .getURL(for: self.movies[index].posterImage)?
-        .absoluteString ?? ""
-    }
-    
 }

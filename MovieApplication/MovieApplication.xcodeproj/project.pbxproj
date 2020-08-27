@@ -227,8 +227,8 @@
 				6EC6DA6B24AD7FE000302219 /* NetworkError.swift */,
 				6EC6DA6D24AD800A00302219 /* ServiceType.swift */,
 				6E541B3424ABFC56003D2541 /* MovieService.swift */,
-				6E8B653824AC4E2700FFBD45 /* ImageCache.swift */,
 				57603B7524F7FAF600A6BB4A /* MovieServiceRequests.swift */,
+				6E8B653824AC4E2700FFBD45 /* ImageCache.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";

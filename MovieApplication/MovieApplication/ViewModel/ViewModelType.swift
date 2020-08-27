@@ -8,28 +8,64 @@
 
 import UIKit
 
-// TODO: Unify VMs to one and check for protocol extensions
-
-protocol ViewModelDataSource {
-    var count: Int { get }
-    func title(index: Int) -> String
-    func releaseDate(index: Int) -> String
-    func duration(index: Int) -> String
-    func overView(index: Int) -> String
-    func genres(index: Int) -> [String]
-    func image(index: Int) -> UIImage?
-    func rating(index: Int) -> Double
+enum ViewModelState {
+    case popular
+    case nowPlaying
 }
 
-protocol ViewModelType: ViewModelDataSource {
+protocol ViewModelType {
+    var movies: [Movie] { get }
+    var service: ServiceType { get }
+    var imageCache: ImageCache { get }
     func bind(uiHandler: @escaping () -> (), errorHandler: @escaping (NetworkError) -> ())
     func fetchMovies()
     func fetchIndividualFilm(index: Int, completion: @escaping () -> ())
     func fetchImage(index: Int, completion: @escaping (UIImage?) -> ())
 }
 
-enum ViewModelState {
-    case popular
-    case nowPlaying
+extension ViewModelType {
+    
+    var count: Int {
+        return self.movies.count
+    }
+    
+    func title(index: Int) -> String {
+        return self.movies[index].title
+    }
+    
+    func releaseDate(index: Int) -> String {
+        return self.movies[index].releaseDate.dateFormatting()
+    }
+    
+    func duration(index: Int) -> String {
+        return String(self.movies[index].duration ?? 0).timeLengthFormatting()
+    }
+    
+    func overView(index: Int) -> String {
+        return self.movies[index].overview
+    }
+    
+    func genres(index: Int) -> [String] {
+        return self.movies[index].genres?.compactMap{ $0.name } ?? []
+    }
+    
+    func image(index: Int) -> UIImage? {
+        guard let data = self.imageCache.get(url: self.fullImageURLString(for: index)) else {
+            return UIImage(named: "Default.jpeg")
+        }
+        return UIImage(data: data)
+    }
+    
+    func rating(index: Int) -> Double {
+        return self.movies[index].rating * 10
+    }
+    
+    internal func fullImageURLString(for index: Int) -> String {
+        return MovieServiceRequest
+        .movieImage(self.movies[index].posterImage)
+        .url?
+        .absoluteString ?? ""
+    }
+    
 }
 

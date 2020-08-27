@@ -36,7 +36,7 @@ extension MovieListViewController: UITableViewDelegate {
 
 extension MovieListViewController: CellSelectedDelegate {
     
-    func navigateToDetail(with index: Int, viewModel: ViewModelDataSource?) {
+    func navigateToDetail(with index: Int, viewModel: ViewModelType?) {
         guard let viewModel = viewModel else { return }
         DispatchQueue.main.async {
             let detailVC = MovieDetailViewController(viewModel: viewModel, index: index, delegate: self)
