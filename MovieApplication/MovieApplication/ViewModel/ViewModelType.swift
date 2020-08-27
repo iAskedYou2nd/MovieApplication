@@ -9,7 +9,8 @@
 import UIKit
 
 // TODO: Unify VMs to one and check for protocol extensions
-protocol ViewModelType {
+
+protocol ViewModelDataSource {
     var count: Int { get }
     func title(index: Int) -> String
     func releaseDate(index: Int) -> String
@@ -18,5 +19,17 @@ protocol ViewModelType {
     func genres(index: Int) -> [String]
     func image(index: Int) -> UIImage?
     func rating(index: Int) -> Double
+}
+
+protocol ViewModelType: ViewModelDataSource {
+    func bind(uiHandler: @escaping () -> (), errorHandler: @escaping (NetworkError) -> ())
+    func fetchMovies()
+    func fetchIndividualFilm(index: Int, completion: @escaping () -> ())
+    func fetchImage(index: Int, completion: @escaping (UIImage?) -> ())
+}
+
+enum ViewModelState {
+    case popular
+    case nowPlaying
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CellSelectedDelegate {
-    func navigateToDetail(with index: Int, viewModel: ViewModelType)
+    func navigateToDetail(with index: Int, viewModel: ViewModelDataSource?)
     func presentAlert(error: NetworkError)
 }
 
@@ -19,31 +19,23 @@ class NowPlayingCell: UITableViewCell {
     
     var collectionView: UICollectionView?
     var delegate: CellSelectedDelegate?
-    var nowPlayingViewModel: NowPlayingMoviesViewModel
+    var movieViewModel: ViewModelType? {
+        didSet {
+            self.setUpVM()
+        }
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.nowPlayingViewModel = NowPlayingMoviesViewModel()
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setUp()
+        self.setUpUI()
     }
     
     required init?(coder: NSCoder) {
-        self.nowPlayingViewModel = NowPlayingMoviesViewModel()
         super.init(coder: coder)
-        self.setUp()
+        self.setUpUI()
     }
     
-    private func setUp() {
-        self.nowPlayingViewModel.bind(uiHandler: {
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }) { (error) in
-            DispatchQueue.main.async {
-                self.delegate?.presentAlert(error: error)
-            }
-        }
-        self.nowPlayingViewModel.fetchMovies()
+    private func setUpUI() {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
@@ -61,8 +53,26 @@ class NowPlayingCell: UITableViewCell {
         self.collectionView = cView
     }
     
+    private func setUpVM() {
+        self.movieViewModel?.bind(uiHandler: {
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                self.delegate?.presentAlert(error: error)
+            }
+        }
+        
+        self.movieViewModel?.fetchMovies()
+    }
+    
     func setDelegate(delegate: CellSelectedDelegate) {
         self.delegate = delegate
+    }
+    
+    func setViewModel(viewModel: ViewModelType) {
+        self.movieViewModel = viewModel
     }
     
 }
@@ -71,8 +81,8 @@ extension NowPlayingCell: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        self.nowPlayingViewModel.fetchIndividualFilm(index: indexPath.item) {
-            self.delegate?.navigateToDetail(with: indexPath.item, viewModel: self.nowPlayingViewModel)
+        self.movieViewModel?.fetchIndividualFilm(index: indexPath.item) {
+            self.delegate?.navigateToDetail(with: indexPath.item, viewModel: self.movieViewModel)
         }
     }
 }
@@ -88,7 +98,7 @@ extension NowPlayingCell: UICollectionViewDelegateFlowLayout {
 extension NowPlayingCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.nowPlayingViewModel.count
+        return self.movieViewModel?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,7 +111,7 @@ extension NowPlayingCell: UICollectionViewDataSource {
     }
     
     private func setImage(cell: ImageCollectionCell, index: Int) {
-        self.nowPlayingViewModel.fetchImage(index: index) { (image) in
+        self.movieViewModel?.fetchImage(index: index) { (image) in
             DispatchQueue.main.async {
                 cell.imageView?.image = image ?? UIImage(named: "Default.jpeg")
             }

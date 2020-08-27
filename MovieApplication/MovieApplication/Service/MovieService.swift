@@ -49,7 +49,6 @@ extension MovieService: ServiceType {
             }
             
         }.resume()
-    
     }
     
     func fetch(url: URL?, completion: @escaping ImageHandler) {

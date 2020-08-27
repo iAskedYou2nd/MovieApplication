@@ -13,7 +13,7 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard indexPath.section == 1 else { return }
-        self.navigateToDetail(with: indexPath.row, viewModel: self.popularViewModel)
+        self.navigateToDetail(with: indexPath.row, viewModel: self.movieViewModel)
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -36,7 +36,8 @@ extension MovieListViewController: UITableViewDelegate {
 
 extension MovieListViewController: CellSelectedDelegate {
     
-    func navigateToDetail(with index: Int, viewModel: ViewModelType) {
+    func navigateToDetail(with index: Int, viewModel: ViewModelDataSource?) {
+        guard let viewModel = viewModel else { return }
         DispatchQueue.main.async {
             let detailVC = MovieDetailViewController(viewModel: viewModel, index: index, delegate: self)
             let navVC = UINavigationController()

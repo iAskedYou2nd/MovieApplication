@@ -23,7 +23,7 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (section == 0) ? 1 : self.popularViewModel.count
+        return (section == 0) ? 1 : self.movieViewModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -34,15 +34,16 @@ extension MovieListViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.setDelegate(delegate: self)
+            cell.setViewModel(viewModel: MovieViewModel(state: .nowPlaying))
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PopularMovieCell.reuseIdentifier, for: indexPath) as? PopularMovieCell else {
                 return UITableViewCell()
             }
             
-            cell.titleLabel?.setAttrString(text: self.popularViewModel.title(index: indexPath.row), isBold: true)
-            cell.releaseDateLabel?.setAttrString(text: self.popularViewModel.releaseDate(index: indexPath.row), isBold: false)
-            cell.ratingView?.percentage = self.popularViewModel.rating(index: indexPath.row)
+            cell.titleLabel?.setAttrString(text: self.movieViewModel.title(index: indexPath.row), isBold: true)
+            cell.releaseDateLabel?.setAttrString(text: self.movieViewModel.releaseDate(index: indexPath.row), isBold: false)
+            cell.ratingView?.percentage = self.movieViewModel.rating(index: indexPath.row)
             self.setImage(cell: cell, index: indexPath.row)
             self.getDetails(cell: cell, index: indexPath.row)
             
@@ -51,7 +52,7 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     private func setImage(cell: PopularMovieCell, index: Int) {
-        self.popularViewModel.fetchImage(index: index) { (image) in
+        self.movieViewModel.fetchImage(index: index) { (image) in
             DispatchQueue.main.async {
                 cell.moviePosterView?.image = image ?? UIImage(named: "Default.jpeg")
             }
@@ -59,9 +60,9 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     private func getDetails(cell: PopularMovieCell, index: Int) {
-        self.popularViewModel.fetchIndividualFilm(index: index) { (duration) in
+        self.movieViewModel.fetchIndividualFilm(index: index) {
             DispatchQueue.main.async {
-                cell.durationLabel?.setAttrString(text: duration, isBold: false)
+                cell.durationLabel?.setAttrString(text: self.movieViewModel.duration(index: index), isBold: false)
             }
         }
     }
@@ -70,9 +71,9 @@ extension MovieListViewController: UITableViewDataSource {
 extension MovieListViewController: UITableViewDataSourcePrefetching {
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        let lastCellIndexPath = IndexPath(row: self.popularViewModel.count - 1, section: 1)
+        let lastCellIndexPath = IndexPath(row: self.movieViewModel.count - 1, section: 1)
         guard indexPaths.contains(lastCellIndexPath) else { return }
-        self.popularViewModel.fetchMovies()
+        self.movieViewModel.fetchMovies()
     }
     
 }

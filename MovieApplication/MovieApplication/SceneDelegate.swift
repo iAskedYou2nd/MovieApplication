@@ -23,7 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         navigationController.navigationBar.tintColor = .white
         navigationController.navigationBar.barTintColor = .black
-        // TODO: Try different fonts
         navigationController.navigationBar.titleTextAttributes =
             [NSAttributedString.Key.font: UIFont(name: "Arial-BoldMT", size: 20.0) as Any,
              NSAttributedString.Key.foregroundColor: UIColor.systemYellow]

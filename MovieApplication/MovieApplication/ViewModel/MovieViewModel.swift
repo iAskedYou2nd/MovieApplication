@@ -1,43 +1,50 @@
 //
-//  PopularMoviesViewModel.swift
+//  MovieViewModel.swift
 //  MovieApplication
 //
-//  Created by Baron Lazar on 7/1/20.
+//  Created by iAskedYou2nd on 8/27/20.
 //  Copyright © 2020 Baron Lazar. All rights reserved.
 //
 
 import UIKit
 
-class PopularMoviesViewModel {
+class MovieViewModel: ViewModelType {
     
-    var currentPage: PageResult?
-    var movies: [Movie] = [] {
+    private var state: ViewModelState
+    private var currentPage: PageResult?
+    private var movies: [Movie] = [] {
         didSet {
-            // If pagination update, reload, otherwise do not
             guard oldValue.count != self.movies.count else { return }
             self.update?()
         }
     }
-    
+        
     private var service: MovieService
     private var imageCache: ImageCache
     private var update: (() -> ())?
     private var errorUpdate: ((NetworkError) -> ())?
     
-    init(service: MovieService = MovieService(), cache: ImageCache = ImageCache.sharedCache) {
+    init(state: ViewModelState, service: MovieService = MovieService(), cache: ImageCache = ImageCache.sharedCache) {
+        self.state = state
         self.service = service
         self.imageCache = cache
     }
     
-    func bind(uiHhandler: @escaping ()->(), errorHandler: @escaping (NetworkError)->()) {
-        self.update = uiHhandler
+    func bind(uiHandler: @escaping () -> (), errorHandler: @escaping (NetworkError) -> ()) {
+        self.update = uiHandler
         self.errorUpdate = errorHandler
     }
     
     func fetchMovies() {
-        let pageNum = (self.currentPage?.page ?? 0) + 1
-        guard pageNum <= self.currentPage?.totalPages ?? 1 else { return }
-        let url = MovieServiceRequest.popularMovies.getURL(for: pageNum)
+        
+        var url: URL?
+        if self.state == .popular {
+            let pageNum = (self.currentPage?.page ?? 0) + 1
+            guard pageNum <= self.currentPage?.totalPages ?? 1 else { return }
+            url = MovieServiceRequest.popularMovies.getURL(for: pageNum)
+        } else {
+            url = MovieServiceRequest.nowPlayingMovies.getURL(for: nil)
+        }
         
         self.service.fetch(url: url) { [weak self] (result: Result<PageResult, NetworkError>) in
             guard let self = self else { return }
@@ -52,9 +59,9 @@ class PopularMoviesViewModel {
         }
     }
     
-    func fetchIndividualFilm(index: Int, completion: @escaping (String)->()) {
+    func fetchIndividualFilm(index: Int, completion: @escaping () -> ()) {
         if let _ = self.movies[index].duration {
-            completion(self.duration(index: index))
+            completion()
             return
         }
         let url = MovieServiceRequest.individualMovie.getURL(for: self.movies[index].id)
@@ -64,7 +71,7 @@ class PopularMoviesViewModel {
             switch result {
             case .success(let movie):
                 self.movies[index] = movie
-                completion(self.duration(index: index))
+                completion()
             case .failure(let error):
                 print(error.localizedDescription)
                 self.errorUpdate?(error)
@@ -72,7 +79,7 @@ class PopularMoviesViewModel {
         }
     }
     
-    func fetchImage(index: Int, completion: @escaping (UIImage?)->()) {
+    func fetchImage(index: Int, completion: @escaping (UIImage?) -> ()) {
         let urlString = self.fullImageURLString(for: index)
         if let data = self.imageCache.get(url: urlString) {
             completion(UIImage(data: data))
@@ -98,8 +105,8 @@ class PopularMoviesViewModel {
     }
 }
 
-extension PopularMoviesViewModel: ViewModelType {
-    
+extension MovieViewModel: ViewModelDataSource {
+        
     var count: Int {
         return self.movies.count
     }

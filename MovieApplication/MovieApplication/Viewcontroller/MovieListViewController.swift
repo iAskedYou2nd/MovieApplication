@@ -10,11 +10,11 @@ import UIKit
 
 class MovieListViewController: UIViewController {
     
-    var popularViewModel: PopularMoviesViewModel
+    var movieViewModel: ViewModelType
     var tableView: UITableView?
     
-    init(popViewModel: PopularMoviesViewModel = PopularMoviesViewModel(), npViewModel: NowPlayingMoviesViewModel = NowPlayingMoviesViewModel()) {
-        self.popularViewModel = popViewModel
+    init(popViewModel: ViewModelType = MovieViewModel(state: .popular)) {
+        self.movieViewModel = popViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -26,9 +26,7 @@ class MovieListViewController: UIViewController {
         super.viewDidLoad()
         self.setUpTableView()
         
-        self.popularViewModel = PopularMoviesViewModel()
-
-        self.popularViewModel.bind(uiHhandler: {
+        self.movieViewModel.bind(uiHandler: {
             DispatchQueue.main.async {
                 self.tableView?.reloadData()
             }
@@ -38,7 +36,7 @@ class MovieListViewController: UIViewController {
             }
         }
             
-        self.popularViewModel.fetchMovies()
+        self.movieViewModel.fetchMovies()
         self.navigationItem.title = "MOVIES"
         self.navigationController?.navigationBar.backgroundColor = .black
     }

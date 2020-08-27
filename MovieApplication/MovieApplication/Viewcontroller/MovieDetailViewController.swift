@@ -14,11 +14,11 @@ protocol DismissDetailDelegate {
 
 class MovieDetailViewController: UIViewController {
 
-    var viewModel: ViewModelType
+    var viewModel: ViewModelDataSource
     var delegate: DismissDetailDelegate
     var index: Int
     
-    init(viewModel: ViewModelType, index: Int, delegate: DismissDetailDelegate) {
+    init(viewModel: ViewModelDataSource, index: Int, delegate: DismissDetailDelegate) {
         self.viewModel = viewModel
         self.index = index
         self.delegate = delegate
