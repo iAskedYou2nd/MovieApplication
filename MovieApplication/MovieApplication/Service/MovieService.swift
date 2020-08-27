@@ -22,17 +22,17 @@ class MovieService {
 
 extension MovieService: ServiceType {
     
-    func fetchNowPlaying(completion: @escaping PageResultHandler) {
+    func fetch<T>(url: URL?, completion: @escaping (Result<T, NetworkError>) -> ()) where T: Codable {
         
-        guard let url = URL(string: MovieServiceConstants.baseURL + MovieServiceConstants.nowPlaying + MovieServiceConstants.apiKey) else {
+        guard let url = url else {
             completion(.failure(.badURL))
             return
         }
         
         self.session.dataTask(with: url) { (data, response, error) in
-                        
-            guard error == nil else {
-                completion(.failure(.error(error?.localizedDescription ?? "Nothing")))
+            
+            if let error = error {
+                completion(.failure(.error(error.localizedDescription)))
                 return
             }
             
@@ -42,78 +42,19 @@ extension MovieService: ServiceType {
             }
             
             do {
-                let result = try self.decoder.decode(PageResult.self, from: data)
+                let result = try self.decoder.decode(T.self, from: data)
                 completion(.success(result))
             } catch {
                 completion(.failure(.decodeFailure))
             }
             
         }.resume()
+    
     }
     
-    func fetchPopular(with page: Int, completion: @escaping PageResultHandler) {
+    func fetch(url: URL?, completion: @escaping ImageHandler) {
         
-        guard let url = URL(string: MovieServiceConstants.baseURL + MovieServiceConstants.popular + MovieServiceConstants.apiKey + MovieServiceConstants.pageQuery + "\(1)") else {
-            completion(.failure(.badURL))
-            return
-        }
-        
-        self.session.dataTask(with: url) { (data, response, error) in
-            
-            guard error == nil else {
-                completion(.failure(.error(error?.localizedDescription ?? "Nothing")))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.badData))
-                return
-            }
-            
-            do {
-                let result = try self.decoder.decode(PageResult.self, from: data)
-                completion(.success(result))
-            } catch {
-                completion(.failure(.decodeFailure))
-            }
-            
-        }.resume()
-        
-    }
-    
-    func fetchMovie(id: Int, completion: @escaping MovieDetailHandler) {
-        
-        guard let url = URL(string: MovieServiceConstants.baseURL + "\(id)" + MovieServiceConstants.apiKey) else {
-            completion(.failure(.badURL))
-            return
-        }
-        
-        self.session.dataTask(with: url) { (data, response, error) in
-            
-            guard error == nil else {
-                completion(.failure(.error(error?.localizedDescription ?? "Nothing")))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.badData))
-                return
-            }
-            
-            do {
-                let result = try self.decoder.decode(Movie.self, from: data)
-                completion(.success(result))
-            } catch {
-                completion(.failure(.decodeFailure))
-            }
-            
-        }.resume()
-        
-    }
-    
-    func fetchImage(urlString: String, completion: @escaping ImageHandler) {
-        
-        guard let url = URL(string: urlString) else {
+        guard let url = url else {
             completion(.failure(.badURL))
             return
         }
@@ -133,7 +74,6 @@ extension MovieService: ServiceType {
             completion(.success(data))
             
         }.resume()
-        
     }
     
 }

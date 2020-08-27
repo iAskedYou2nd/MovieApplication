@@ -31,11 +31,14 @@ class NowPlayingMoviesViewModel {
     }
     
     func fetchMovies() {
-        self.service.fetchNowPlaying { [weak self] (result) in
+        
+        let url = MovieServiceRequest.nowPlayingMovies.getURL(for: nil)
+        
+        self.service.fetch(url: url) { [weak self] (result: Result<PageResult, NetworkError>) in
             guard let self = self else { return }
             switch result {
             case .success(let page):
-                self.movies = page.results
+                self.movies.append(contentsOf: page.results)
             case .failure(let error):
                 print(error.localizedDescription)
                 self.errorUpdate?(error)
@@ -49,7 +52,8 @@ class NowPlayingMoviesViewModel {
             return
         }
         
-        self.service.fetchMovie(id: self.movies[index].id) { [weak self] (result) in
+        let url = MovieServiceRequest.individualMovie.getURL(for: self.movies[index].id)
+        self.service.fetch(url: url) { [weak self] (result: Result<Movie, NetworkError>) in
             guard let self = self else { return }
             switch result {
             case .success(let movie):
@@ -73,8 +77,9 @@ class NowPlayingMoviesViewModel {
             completion(UIImage(data: data))
             return
         }
-        completion(nil)
-        self.service.fetchImage(urlString: urlString, completion: { [weak self] (result) in
+
+        let url = MovieServiceRequest.movieImage.getURL(for: self.movies[index].posterImage)
+        self.service.fetch(url: url) { [weak self] (result) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
@@ -89,7 +94,7 @@ class NowPlayingMoviesViewModel {
                 print(error.localizedDescription)
                 self.errorUpdate?(error)
             }
-        })
+        }
     }
     
 }
@@ -132,7 +137,10 @@ extension NowPlayingMoviesViewModel: ViewModelType {
     }
     
     func fullImageURLString(for index: Int) -> String {
-        return MovieServiceConstants.imageBaseURL + self.movies[index].posterImage
+        return MovieServiceRequest
+            .movieImage
+            .getURL(for: self.movies[index].posterImage)?
+            .absoluteString ?? ""
     }
     
 }

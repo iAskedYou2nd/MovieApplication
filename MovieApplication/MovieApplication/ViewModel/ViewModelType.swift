@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: Unify VMs to one and check for protocol extensions
 protocol ViewModelType {
     var count: Int { get }
     func title(index: Int) -> String

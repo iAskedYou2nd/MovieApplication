@@ -37,7 +37,9 @@ class PopularMoviesViewModel {
     func fetchMovies() {
         let pageNum = (self.currentPage?.page ?? 0) + 1
         guard pageNum <= self.currentPage?.totalPages ?? 1 else { return }
-        self.service.fetchPopular(with: pageNum, completion: { [weak self] (result) in
+        let url = MovieServiceRequest.popularMovies.getURL(for: pageNum)
+        
+        self.service.fetch(url: url) { [weak self] (result: Result<PageResult, NetworkError>) in
             guard let self = self else { return }
             switch result {
             case .success(let page):
@@ -47,7 +49,7 @@ class PopularMoviesViewModel {
                 print(error.localizedDescription)
                 self.errorUpdate?(error)
             }
-        })
+        }
     }
     
     func fetchIndividualFilm(index: Int, completion: @escaping (String)->()) {
@@ -55,8 +57,9 @@ class PopularMoviesViewModel {
             completion(self.duration(index: index))
             return
         }
+        let url = MovieServiceRequest.individualMovie.getURL(for: self.movies[index].id)
         
-        self.service.fetchMovie(id: self.movies[index].id) { [weak self] (result) in
+        self.service.fetch(url: url) { [weak self] (result: Result<Movie, NetworkError>) in
             guard let self = self else { return }
             switch result {
             case .success(let movie):
@@ -75,22 +78,23 @@ class PopularMoviesViewModel {
             completion(UIImage(data: data))
             return
         }
-        completion(nil)
-        self.service.fetchImage(urlString: urlString, completion: { [weak self] (result) in
-            guard let self = self else { return }
-            switch result {
-            case .success(let data):
-                guard let data = data else {
-                    completion(nil)
-                    return
-                }
-                self.imageCache.set(data: data, url: urlString)
-                completion(UIImage(data: data))
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.errorUpdate?(error)
-            }
-        })
+        
+        let url = MovieServiceRequest.movieImage.getURL(for: self.movies[index].posterImage)
+        self.service.fetch(url: url) { [weak self] (result) in
+             guard let self = self else { return }
+                       switch result {
+                       case .success(let data):
+                           guard let data = data else {
+                               completion(nil)
+                               return
+                           }
+                           self.imageCache.set(data: data, url: urlString)
+                           completion(UIImage(data: data))
+                       case .failure(let error):
+                           print(error.localizedDescription)
+                           self.errorUpdate?(error)
+                       }
+        }
     }
 }
 
@@ -132,7 +136,10 @@ extension PopularMoviesViewModel: ViewModelType {
     }
     
     func fullImageURLString(for index: Int) -> String {
-        return MovieServiceConstants.imageBaseURL + self.movies[index].posterImage
+        return MovieServiceRequest
+        .movieImage
+        .getURL(for: self.movies[index].posterImage)?
+        .absoluteString ?? ""
     }
     
 }
