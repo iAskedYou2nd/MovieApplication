@@ -10,6 +10,13 @@ import UIKit
 
 extension UIView {
 
+    convenience init(bufferAxis: NSLayoutConstraint.Axis) {
+        self.init(frame: .zero)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.setContentHuggingPriority(.defaultLow, for: bufferAxis)
+        self.setContentCompressionResistancePriority(.defaultLow, for: bufferAxis)
+    }
+    
     func boundToSuperView(inset: CGFloat) {
         guard let superview = self.superview else {
             print("You forgot to add the view to the hierarchy")

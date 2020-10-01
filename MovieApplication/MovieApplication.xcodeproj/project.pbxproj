@@ -16,6 +16,8 @@
 		57603B7224F74F2700A6BB4A /* MovieNetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57603B7124F74F2700A6BB4A /* MovieNetworkManagerTests.swift */; };
 		57603B7624F7FAF600A6BB4A /* MovieServiceRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57603B7524F7FAF600A6BB4A /* MovieServiceRequests.swift */; };
 		57603B7824F8025C00A6BB4A /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57603B7724F8025C00A6BB4A /* MovieViewModel.swift */; };
+		57603B7A24F8BABE00A6BB4A /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57603B7924F8BABE00A6BB4A /* PaddingLabel.swift */; };
+		57603B7C24F9DFAF00A6BB4A /* AVTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57603B7B24F9DFAF00A6BB4A /* AVTestViewController.swift */; };
 		6E541B0724ABFAB1003D2541 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E541B0624ABFAB1003D2541 /* AppDelegate.swift */; };
 		6E541B0924ABFAB1003D2541 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E541B0824ABFAB1003D2541 /* SceneDelegate.swift */; };
 		6E541B1024ABFAB6003D2541 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E541B0F24ABFAB6003D2541 /* Assets.xcassets */; };
@@ -63,6 +65,8 @@
 		57603B7124F74F2700A6BB4A /* MovieNetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieNetworkManagerTests.swift; sourceTree = "<group>"; };
 		57603B7524F7FAF600A6BB4A /* MovieServiceRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieServiceRequests.swift; sourceTree = "<group>"; };
 		57603B7724F8025C00A6BB4A /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
+		57603B7924F8BABE00A6BB4A /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		57603B7B24F9DFAF00A6BB4A /* AVTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVTestViewController.swift; sourceTree = "<group>"; };
 		6E541B0324ABFAB1003D2541 /* MovieApplication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApplication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E541B0624ABFAB1003D2541 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E541B0824ABFAB1003D2541 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				6EFA56DC24AC01A2003C0AC9 /* RatingView.swift */,
+				57603B7924F8BABE00A6BB4A /* PaddingLabel.swift */,
 				6EFA56E024AC14FB003C0AC9 /* PopularMovieCell.swift */,
 				6E8B653A24ACBCE300FFBD45 /* NowPlayingCell.swift */,
 				6E8B653C24ACC0F700FFBD45 /* ImageCollectionCell.swift */,
@@ -200,6 +205,7 @@
 				6EC6DA6724AD75F900302219 /* MovieListViewController+DataSource.swift */,
 				6E541B3024ABFC2A003D2541 /* MovieDetailViewController.swift */,
 				6EA8CF9C24BE17AC0009D7E6 /* Utility */,
+				57603B7B24F9DFAF00A6BB4A /* AVTestViewController.swift */,
 			);
 			path = Viewcontroller;
 			sourceTree = "<group>";
@@ -372,6 +378,7 @@
 				6EFA56DD24AC01A2003C0AC9 /* RatingView.swift in Sources */,
 				6EC6DA6A24AD764200302219 /* MovieListViewController+Delegate.swift in Sources */,
 				6E541B3324ABFC42003D2541 /* Movie.swift in Sources */,
+				57603B7A24F8BABE00A6BB4A /* PaddingLabel.swift in Sources */,
 				6E541B0724ABFAB1003D2541 /* AppDelegate.swift in Sources */,
 				6E541B0924ABFAB1003D2541 /* SceneDelegate.swift in Sources */,
 				6E541B2F24ABFC1A003D2541 /* MovieListViewController.swift in Sources */,
@@ -381,6 +388,7 @@
 				6E8B653D24ACC0F700FFBD45 /* ImageCollectionCell.swift in Sources */,
 				6E8B653F24ACC83A00FFBD45 /* ViewModelType.swift in Sources */,
 				6E541B3924ABFEE5003D2541 /* UIStackView+Utils.swift in Sources */,
+				57603B7C24F9DFAF00A6BB4A /* AVTestViewController.swift in Sources */,
 				6E8B653B24ACBCE400FFBD45 /* NowPlayingCell.swift in Sources */,
 				57603B7824F8025C00A6BB4A /* MovieViewModel.swift in Sources */,
 				6EC6DA6E24AD800A00302219 /* ServiceType.swift in Sources */,

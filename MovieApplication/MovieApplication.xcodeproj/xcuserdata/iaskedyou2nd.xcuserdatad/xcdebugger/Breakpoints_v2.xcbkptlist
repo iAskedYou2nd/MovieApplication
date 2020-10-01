@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "6582F8E1-3609-4F1D-9249-2A2340E257CA"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "19082E76-2D84-415D-AA4C-005D6AEFADAE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MovieApplication/ViewModel/MovieViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "fetchMovies()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FA5BC90D-89D7-4F34-83F8-FE948A6BE88F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MovieApplication/Service/MovieService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "fetch(url:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84190431-2306-4DAD-84A6-1716F5AD77A0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MovieApplication/Service/MovieService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "fetch(url:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "84190431-2306-4DAD-84A6-1716F5AD77A0 - d1bddeafbec0a1f6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MovieApplication.MovieService.fetch&lt;A where A: Swift.Decodable, A: Swift.Encodable&gt;(url: Swift.Optional&lt;Foundation.URL&gt;, completion: (Swift.Result&lt;A, MovieApplication.NetworkError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "MovieApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaskedyou2nd/Projects/Personal/MovieApplication/MovieApplication/MovieApplication/Service/MovieService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "486">
+               </Location>
+               <Location
+                  uuid = "84190431-2306-4DAD-84A6-1716F5AD77A0 - 67bc80ae1b3b9ccf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in MovieApplication.MovieService.fetch&lt;A where A: Swift.Decodable, A: Swift.Encodable&gt;(url: Swift.Optional&lt;Foundation.URL&gt;, completion: (Swift.Result&lt;A, MovieApplication.NetworkError&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "MovieApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaskedyou2nd/Projects/Personal/MovieApplication/MovieApplication/MovieApplication/Service/MovieService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "383">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C3E62A20-DBCF-44DD-A0F4-DFE554C70373"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MovieApplication/ViewModel/MovieViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "fetchIndividualFilm(index:completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33138F2A-7106-4521-871F-3095AB3A3998"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MovieApplication/ViewModel/MovieViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "fetchIndividualFilm(index:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "33138F2A-7106-4521-871F-3095AB3A3998 - e6bdd229a4d9d100"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MovieApplication.MovieViewModel.fetchIndividualFilm(index: Swift.Int, completion: () -&gt; ()) -&gt; ()"
+                  moduleName = "MovieApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaskedyou2nd/Projects/Personal/MovieApplication/MovieApplication/MovieApplication/ViewModel/MovieViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "659">
+               </Location>
+               <Location
+                  uuid = "33138F2A-7106-4521-871F-3095AB3A3998 - e982bde28b863496"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;MovieApplication.Movie, MovieApplication.NetworkError&gt;) -&gt; () in MovieApplication.MovieViewModel.fetchIndividualFilm(index: Swift.Int, completion: () -&gt; ()) -&gt; ()"
+                  moduleName = "MovieApplication"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/iaskedyou2nd/Projects/Personal/MovieApplication/MovieApplication/MovieApplication/ViewModel/MovieViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "270">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

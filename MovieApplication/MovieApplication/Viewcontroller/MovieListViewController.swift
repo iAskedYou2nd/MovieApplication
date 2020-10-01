@@ -39,6 +39,17 @@ class MovieListViewController: UIViewController {
         self.movieViewModel.fetchMovies()
         self.navigationItem.title = "MOVIES"
         self.navigationController?.navigationBar.backgroundColor = .black
+        
+        let button = UIBarButtonItem(title: "Test", style: .done, target: self, action: #selector(self.navigateToTest))
+        self.navigationItem.setRightBarButton(button, animated: false)
+    }
+    
+    @objc
+    func navigateToTest() {
+        let vc = AVTestViewController()
+        vc.viewModel = self.movieViewModel
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setUpTableView() {

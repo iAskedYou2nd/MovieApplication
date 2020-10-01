@@ -101,7 +101,7 @@ class RatingView: UIView {
         let numAttrString = NSAttributedString(string: rating, attributes: numAttr)
         attrString.append(numAttrString)
         
-        let percentAttr = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 10) as Any,
+        let percentAttr = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Bold", size: 10) as Any,
                            NSAttributedString.Key.baselineOffset: 5,
                            NSAttributedString.Key.foregroundColor: UIColor.white]
         let percentAttrString = NSAttributedString(string: "%", attributes: percentAttr)

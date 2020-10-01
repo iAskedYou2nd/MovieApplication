@@ -60,6 +60,10 @@ extension ViewModelType {
         return self.movies[index].rating * 10
     }
     
+    func videos(index: Int) -> [Video] {
+        return self.movies[index].videos?.results ?? []
+    }
+    
     internal func fullImageURLString(for index: Int) -> String {
         return MovieServiceRequest
         .movieImage(self.movies[index].posterImage)

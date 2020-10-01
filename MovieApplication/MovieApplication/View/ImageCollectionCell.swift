@@ -10,7 +10,7 @@ import UIKit
 
 class ImageCollectionCell: UICollectionViewCell {
     
-    static let reuseIdentifier = " ImageCollectionCell"
+    static let reuseIdentifier = "ImageCollectionCell"
     
     var imageView: UIImageView?
     

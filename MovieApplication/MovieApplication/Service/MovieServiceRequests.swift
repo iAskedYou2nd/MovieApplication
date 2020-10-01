@@ -13,6 +13,7 @@ enum MovieServiceRequest {
     case popularMovies(Int)
     case individualMovie(Int)
     case movieImage(String)
+    case youtubeVideo(String)
     
     var url: URL? {
         switch self {
@@ -24,7 +25,10 @@ enum MovieServiceRequest {
             return MovieServiceParams.createMovieURL(for: identifier)
         case .movieImage(let posterPath):
             return MovieServiceParams.createMovieImageURL(for: posterPath)
+        case .youtubeVideo(let videoKey):
+            return MovieServiceParams.createYoutubeURL(for: videoKey)
         }
+        
     }
 }
 
@@ -36,6 +40,10 @@ private enum MovieServiceParams: String {
     case pageQuery = "&page="
     // w500 is the size. Test with different sizes
     case imageBaseURL = "https://image.tmdb.org/t/p/w500/"
+    case videosQuery = "&append_to_response=videos"
+    // YouTube
+    case youtubeBaseURL = "https://www.youtube.com/embed/"
+    case embededQuery = "?feature=oembed"
     
     static func createNowPlayingURL() -> URL? {
         return URL(string: MovieServiceParams.baseURL.rawValue
@@ -54,12 +62,19 @@ private enum MovieServiceParams: String {
     static func createMovieURL(for identifier: Int) -> URL? {
         return URL(string: MovieServiceParams.baseURL.rawValue
             + "\(identifier)"
-            + MovieServiceParams.apiKey.rawValue)
+            + MovieServiceParams.apiKey.rawValue
+            + MovieServiceParams.videosQuery.rawValue)
     }
     
     static func createMovieImageURL(for posterPath: String) -> URL? {
         return URL(string: MovieServiceParams.imageBaseURL.rawValue
             + "\(posterPath)")
+    }
+    
+    static func createYoutubeURL(for videoKey: String) -> URL? {
+        return URL(string: MovieServiceParams.youtubeBaseURL.rawValue
+            + "\(videoKey)"
+            + MovieServiceParams.embededQuery.rawValue)
     }
 }
 

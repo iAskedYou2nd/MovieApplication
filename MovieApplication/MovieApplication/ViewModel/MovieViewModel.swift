@@ -102,4 +102,16 @@ class MovieViewModel: ViewModelType {
                        }
         }
     }
+    
+//    func fetchMovieVid(index: Int, completion: @escaping () -> ()) {
+//        let videoKey = self.movies[0].videos?.results[index].key ?? ""
+//        let url = MovieServiceRequest.youtubeVideo(videoKey).url
+//        
+//        self.service.fetch(url: url) { (result: ) in
+//            switch result {
+//            case .success(<#T##Data?#>)
+//            }
+//        }
+//        
+//    }
 }
